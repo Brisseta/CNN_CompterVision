@@ -12,50 +12,108 @@
 
 package com.theartofdev.edmodo.cropper.quick.start;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.Volley;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.ByteArrayOutputStream;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 public class MainActivity extends AppCompatActivity {
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-  }
+    static RequestQueue mVolleyQueue;
+    static ImageLoader mVolleyImageLoader;
+    Button sendButton;
+    static Context context;
+    public static Bitmap image;
 
-  /** Start pick image activity with chooser. */
-  public void onSelectImageClick(View view) {
-    CropImage.activity()
-        .setGuidelines(CropImageView.Guidelines.ON)
-        .setActivityTitle("My Crop")
-        .setCropShape(CropImageView.CropShape.OVAL)
-        .setCropMenuCropButtonTitle("Done")
-        .setRequestedSize(400, 400)
-        .setCropMenuCropButtonIcon(R.drawable.ic_launcher)
-        .start(this);
-  }
 
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-    // handle result of CropImageActivity
-    if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-      CropImage.ActivityResult result = CropImage.getActivityResult(data);
-      if (resultCode == RESULT_OK) {
-        ((ImageView) findViewById(R.id.quick_start_cropped_image)).setImageURI(result.getUri());
-        Toast.makeText(
-                this, "Cropping successful, Sample: " + result.getSampleSize(), Toast.LENGTH_LONG)
-            .show();
-      } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-        Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
-      }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sendButton = findViewById(R.id.send);
+        mVolleyQueue = Volley.newRequestQueue(getApplicationContext());
+        mVolleyImageLoader = new ImageLoader(mVolleyQueue, new BitmapLruCache());
+        mVolleyQueue.start();
+        context = this;
+        setContentView(R.layout.activity_main);
     }
-  }
+
+    public static RequestQueue getVolleyRequestQueue() {
+        return mVolleyQueue;
+    }
+
+    public static ImageLoader getVolleyImageLoader() {
+        return mVolleyImageLoader;
+    }
+
+    public static Context getContext() {
+        return context;
+    }
+
+    public static String getStringImage(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
+
+    /**
+     * Start pick image activity with chooser.
+     */
+    public void onSelectImageClick(View view) {
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setActivityTitle("Decoupage")
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .setCropMenuCropButtonTitle("Done")
+                .setRequestedSize(400, 400)
+                .setCropMenuCropButtonIcon(R.drawable.ic_launcher)
+                .start(this);
+    }
+
+    public void OnSendImageClick(View view) {
+        // Start Result activity
+        Intent myIntent = new Intent(this,
+                ResultActivity.class);
+        myIntent.putExtras(this.getIntent());
+        startActivity(myIntent);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // handle result of CropImageActivity
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                ImageView view = findViewById(R.id.quick_start_cropped_image);
+                view.setImageURI(result.getUri());
+                image = ((BitmapDrawable) view.getDrawable()).getBitmap();
+                Toast.makeText(
+                        this, "Cropping successful, Sample: " + result.getSampleSize(), Toast.LENGTH_LONG)
+                        .show();
+//                sendButton.setEnabled(true);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
+//                sendButton.setEnabled(false);
+            }
+        }
+    }
+
 }
