@@ -1,0 +1,4 @@
+#Sun Apr 07 20:27:53 CEST 2019
+base.0=D\:\\AndroidStudioProjects\\Android-Image-Cropper\\quick-start\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
+path.0=classes.dex
+renamed.0=classes.dex
