@@ -16,3 +16,8 @@
 ### POST img_searches/ Pour upload l'image a analyser par le serveur
 ### GET static/<str_name>.jpg pour aller cherche une ressource précise de votre dossier de d'apprentissage.
 ### POST index/<int> pour changer le nombre de résultats voulus par les clients.
+  
+  
+ Liens utiles : 
+ https://github.com/Brisseta/Back_endCV.git : repository du serveur (en cas de pb)
+ 
