@@ -54,6 +54,9 @@ public class ResultActivity extends ListActivity {
         nDialog = new ProgressDialog(ResultActivity.this);
         nDialog.setMessage("Chargement..");
         nDialog.setTitle("En attente des résultats");
+        if(getPingResult(Config.SERVER_IP) == null) {
+            nDialog.setMessage("Serveur Injoignable");
+        }
         nDialog.setIndeterminate(false);
         nDialog.setCancelable(true);
         nDialog.show();
