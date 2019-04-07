@@ -114,26 +114,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Handle some changes on Settings
-        HashMap<String, String> params = new HashMap<>();
-        params.put("number", String.valueOf(R.xml.pref_data_sync));
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                Config.INDEXING_URL, new JSONObject(params), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                //TODO
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Le code suivant est appelé lorsque Volley n'a pas réussi à récupérer le résultat de la requête
-                Log.d("error settings value", "Error while getting JSON: " + error.getMessage());
-
-            }
-
-        });
-        mVolleyQueue.add(jsonObjReq);
         // handle result of CropImageActivity
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);

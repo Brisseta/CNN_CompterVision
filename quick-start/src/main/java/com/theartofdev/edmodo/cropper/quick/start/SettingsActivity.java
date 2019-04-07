@@ -1,7 +1,6 @@
 package com.theartofdev.edmodo.cropper.quick.start;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -13,6 +12,7 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
@@ -23,13 +23,16 @@ import android.view.MenuItem;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.theartofdev.edmodo.cropper.quick.start.Config;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+
+import androidx.annotation.RequiresApi;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -44,12 +47,11 @@ import java.util.List;
  */
 public class SettingsActivity extends PreferenceActivity {
 
+    static int result_count= 5;
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
      */
-
-    static RequestQueue mRequestQueue;
 
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
@@ -67,7 +69,6 @@ public class SettingsActivity extends PreferenceActivity {
                         index >= 0
                                 ? listPreference.getEntries()[index]
                                 : null);
-
 
             } else if (preference instanceof RingtonePreference) {
                 // For ringtone preferences, look up the correct display value
@@ -133,10 +134,7 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // On récupère notre VolleyRequestQueue
-        Context app = MainActivity.getContext();
-        mRequestQueue = MainActivity.getVolleyRequestQueue();
-
+        // On récupère notre VolleyRequestQueu
         setupActionBar();
     }
 
@@ -195,7 +193,7 @@ public class SettingsActivity extends PreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines
-        }
+    }
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
@@ -244,6 +242,7 @@ public class SettingsActivity extends PreferenceActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class DataSyncPreferenceFragment extends PreferenceFragment {
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -254,14 +253,13 @@ public class SettingsActivity extends PreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-
-
+            bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+//                    result_count = Objects.requireNonNull(findPreference("sync_frequency").getPreferenceDataStore()).getInt("sync_frequency",5);
         }
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
-
             if (id == android.R.id.home) {
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
@@ -269,5 +267,4 @@ public class SettingsActivity extends PreferenceActivity {
             return super.onOptionsItemSelected(item);
         }
     }
-
 }
