@@ -40,7 +40,7 @@ public class ResultActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // On récupère notre RequestQueue et notre ImageLoader depuis notre objet XebiaApplication
+        // On récupère notre RequestQueue et notre ImageLoader
         Context app = MainActivity.getContext();
         mRequestQueue = MainActivity.getVolleyRequestQueue();
         ImageLoader imageLoader = MainActivity.getVolleyImageLoader();
@@ -51,6 +51,7 @@ public class ResultActivity extends ListActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        // chargement avant récupération des résultats
         nDialog = new ProgressDialog(ResultActivity.this);
         nDialog.setMessage("Chargement..");
         nDialog.setTitle("En attente des résultats");

@@ -8,5 +8,9 @@ public class Config {
 
     public static final int ROUND_NB = 3;
 
+    public static final int HAUTEUR_REQUISE = 400;
+
+    public static final int LARGEUR_REQUISE = 400;
+
 
 }

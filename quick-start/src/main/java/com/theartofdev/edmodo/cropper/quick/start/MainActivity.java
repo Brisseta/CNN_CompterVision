@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 .setActivityTitle("Decoupage")
                 .setCropShape(CropImageView.CropShape.RECTANGLE)
                 .setCropMenuCropButtonTitle("Done")
-                .setRequestedSize(400, 400)
+                .setRequestedSize(Config.LARGEUR_REQUISE, Config.HAUTEUR_REQUISE)
                 .setCropMenuCropButtonIcon(R.drawable.ic_launcher)
                 .start(this);
     }
