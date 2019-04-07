@@ -18,18 +18,26 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -94,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(myIntent);
 
     }
+
     public void OnSettingsClick(View view) {
         // Start Result activity
         Intent myIntent = new Intent(this,
@@ -105,7 +114,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Handle some changes on Settings
+        HashMap<String, String> params = new HashMap<>();
+        params.put("number", String.valueOf(R.xml.pref_data_sync));
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                Config.INDEXING_URL, new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //TODO
+            }
+        }, new Response.ErrorListener() {
 
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Le code suivant est appelé lorsque Volley n'a pas réussi à récupérer le résultat de la requête
+                Log.d("error settings value", "Error while getting JSON: " + error.getMessage());
+
+            }
+
+        });
+        mVolleyQueue.add(jsonObjReq);
         // handle result of CropImageActivity
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);

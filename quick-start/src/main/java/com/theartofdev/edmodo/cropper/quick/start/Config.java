@@ -4,6 +4,8 @@ public class Config {
     // File upload url (replace the ip with your server address)
     public static final String FILE_UPLOAD_URL = "http://abrisset.ddns.net/img_searches/";
 
+    public static final String INDEXING_URL = "http://abrisset.ddns.net/index/";
+
     public static final String SERVER_IP = "abrisset.ddns.net";
 
     public static final int ROUND_NB = 3;
