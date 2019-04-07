@@ -8,12 +8,11 @@
 
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="12dp"
-        android:onClick="onSelectImageClick"
-        android:text="@string/main_button_select_image" />
+        android:id="@+id/button"
+        android:layout_width="44dp"
+        android:layout_height="36dp"
+        android:background="@android:drawable/ic_menu_preferences"
+        android:onClick="OnSettingsClick" />
 
     <ImageView
         android:id="@+id/quick_start_cropped_image"
@@ -21,7 +20,16 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:contentDescription="@string/result_image_desc"
-        android:src="@drawable/placeholder" />
+        android:src="@drawable/placeholder"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="12dp"
+        android:onClick="onSelectImageClick"
+        android:text="@string/main_button_select_image" />
 
     <Button
         android:id="@+id/send"

@@ -5,16 +5,11 @@
     <header
         android:fragment="com.theartofdev.edmodo.cropper.quick.start.SettingsActivity$GeneralPreferenceFragment"
         android:icon="@drawable/ic_info_black_24dp"
-        android:title="@string/pref_header_general" />
-
-    <header
-        android:fragment="com.theartofdev.edmodo.cropper.quick.start.SettingsActivity$NotificationPreferenceFragment"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/pref_header_notifications" />
+        android:title="Indexage et serveur" />
 
     <header
         android:fragment="com.theartofdev.edmodo.cropper.quick.start.SettingsActivity$DataSyncPreferenceFragment"
         android:icon="@drawable/ic_sync_black_24dp"
-        android:title="@string/pref_header_data_sync" />
+        android:title="Recherche" />
 
 </preference-headers>

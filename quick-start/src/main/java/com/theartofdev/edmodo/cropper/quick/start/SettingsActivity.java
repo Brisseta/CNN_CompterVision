@@ -18,7 +18,7 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.view.MenuItem;
-
+import com.theartofdev.edmodo.cropper.quick.start.Config;
 import java.util.List;
 
 /**
@@ -239,6 +239,7 @@ public class SettingsActivity extends PreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+            // TODO SEND to serveur
         }
 
         @Override

@@ -94,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(myIntent);
 
     }
+    public void OnSettingsClick(View view) {
+        // Start Result activity
+        Intent myIntent = new Intent(this,
+                SettingsActivity.class);
+        myIntent.putExtras(this.getIntent());
+        startActivity(myIntent);
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
