@@ -1,6 +1,7 @@
 package com.theartofdev.edmodo.cropper.quick.start;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -32,6 +33,7 @@ public class ResultActivity extends ListActivity {
     private RequestQueue mRequestQueue;
     private ResultListAdapter mAdapter;
     private String resultLocation = "";
+    ProgressDialog nDialog;
 
 
     @Override
@@ -49,6 +51,12 @@ public class ResultActivity extends ListActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        nDialog = new ProgressDialog(ResultActivity.this);
+        nDialog.setMessage("Chargement..");
+        nDialog.setTitle("En attente des résultats");
+        nDialog.setIndeterminate(false);
+        nDialog.setCancelable(true);
+        nDialog.show();
     }
 
     public String getIPAdrr() {
@@ -78,6 +86,8 @@ public class ResultActivity extends ListActivity {
 
                                     @Override
                                     public void onResponse(JSONObject response) {
+                                        //En enleve le chargement
+                                        nDialog.dismiss();
                                         // Ce code est appelé quand la requête réussi. Étant ici dans le thread principal, on va pouvoir mettre à jour notre Adapter
                                         try {
                                             mAdapter.updateMembers(response);
@@ -146,7 +156,7 @@ public class ResultActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         // Lorsque l'on clique sur un élément de la liste, cela lancera l'URL du compte GitHub de l'utilisateur sélectionné.
         JSONObject item = mAdapter.getItem(position);
-        String url = item.optString("html_url");
+        String url = "http://" + item.optString("result_lib");
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         startActivity(intent);

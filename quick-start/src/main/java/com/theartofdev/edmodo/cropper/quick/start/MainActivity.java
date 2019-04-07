@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 view.setImageURI(result.getUri());
                 image = ((BitmapDrawable) view.getDrawable()).getBitmap();
                 Toast.makeText(
-                        this, "Cropping successful, Sample: " + result.getSampleSize(), Toast.LENGTH_LONG)
+                        this, "Cropping successful: ", Toast.LENGTH_LONG)
                         .show();
 //                sendButton.setEnabled(true);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
